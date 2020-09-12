@@ -13,14 +13,37 @@ class Counters extends Component {
 
         ]
     };
+
+    handleDelete = (counterId) => {
+        console.log('Event Handler Called', counterId);
+        const counters = this.state.counters.filter(c => c.id !== counterId);
+        this.setState({ counters: counters })
+    };
+    hendleReset = () => {
+        const counters = this.state.counters.map( c=> {
+            c.value = 0;
+            return c;
+        });
+        this.setState({ counters });
+    };
+
     render() { 
         console.log(this.props);
         return ( 
             <div>
+                <button
+                    className="btn btn-primary btn-sm m-2"
+                    onClick={this.handleReset}> Reset
+                </button>
+                <ul>
                 { this.state.counters.map(counter => 
-                    <Counter key={counter.id} value={counter.value} id={counter.id} />
+                    <Counter key={counter.id} 
+                             onDelete = {this.handleDelete}
+                             counter={counter}
+                             />
             )}
-            </div>
+                </ul>
+            </div> 
          );
     }
 }
